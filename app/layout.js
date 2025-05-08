@@ -1,5 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./_components/Header";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,12 +21,22 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    <ClerkProvider
+    publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      appearance={{
+        variables: {
+          colorPrimary: '#2563eb' // Match your theme
+        }
+      }}
+    >
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster />
         {children}
       </body>
     </html>
+    </ClerkProvider>
   );
 }
